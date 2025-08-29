@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Royal Stay - Premium Hotel Booking</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            color: var(--accent);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav li {
+            margin-left: 25px;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        nav a:hover {
+            color: var(--accent);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        /* Booking Widget */
+        .booking-widget {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-top: -50px;
+            box-shadow: var(--shadow);
+            position: relative;
+            z-index: 10;
+        }
+        
+        .widget-title {
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+        
+        .booking-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        
+        .btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 14px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn i {
+            margin-right: 8px;
+        }
+        
+        .btn:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+        }
+        
+        /* Room Listing */
+        .room-listing {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            color: var(--primary);
+        }
+        
+        .rooms-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .room-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .room-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .room-image {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .room-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+        
+        .room-card:hover .room-image img {
+            transform: scale(1.05);
+        }
+        
+        .room-details {
+            padding: 20px;
+        }
+        
+        .room-type {
+            font-size: 1.4rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .room-features {
+            margin: 15px 0;
+            color: #666;
+        }
+        
+        .room-features li {
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .room-features i {
+            color: var(--success);
+            margin-right: 8px;
+        }
+        
+        .room-price {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+        
+        .price-amount {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--secondary);
+        }
+        
+        .price-detail {
+            font-size: 0.9rem;
+            color: #777;
+        }
+        
+        /* Booking Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        
+        .modal-content {
+            background: white;
+            max-width: 600px;
+            margin: 50px auto;
+            border-radius: 10px;
+            padding: 30px;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            color: #777;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .close-modal:hover {
+            color: var(--accent);
+        }
+        
+        .booking-summary {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .summary-total {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            border-top: 2px solid #ddd;
+            padding-top: 10px;
+            margin-top: 10px;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 50px 0 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--accent);
+        }
+        
+        .footer-contact i {
+            margin-right: 10px;
+            color: var(--accent);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin-top: 15px;
+                justify-content: center;
+            }
+            
+            nav li {
+                margin: 0 10px;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .booking-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .rooms-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animated {
+            animation: fadeIn 0.6s ease forwards;
+        }
+        
+        /* Utility Classes */
+        .text-center {
+            text-align: center;
+        }
+        
+        .mt-20 {
+            margin-top: 20px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        /* Indian Rupee Symbol */
+        .rupee::before {
+            content: "₹";
+        }
+        
+        /* Special Offers */
+        .special-offer {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--accent);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+        
+        .room-card {
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-hotel"></i>
+                <span>Royal Stay</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Rooms</a></li>
+                    <li><a href="#">Amenities</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Experience Luxury At Affordable Prices</h1>
+            <p>Book your stay at our premium hotel and enjoy world-class amenities, exquisite dining, and unparalleled service without breaking the bank.</p>
+        </div>
+    </section>
+
+    <!-- Booking Widget -->
+    <div class="container">
+        <div class="booking-widget">
+            <h2 class="widget-title">Find Your Perfect Stay</h2>
+            <div class="booking-form">
+                <div class="form-group">
+                    <label for="check-in">Check-In</label>
+                    <input type="date" id="check-in" required>
+                </div>
+                <div class="form-group">
+                    <label for="check-out">Check-Out</label>
+                    <input type="date" id="check-out" required>
+                </div>
+                <div class="form-group">
+                    <label for="adults">Adults</label>
+                    <select id="adults">
+                        <option value="1">1 Adult</option>
+                        <option value="2" selected>2 Adults</option>
+                        <option value="3">3 Adults</option>
+                        <option value="4">4 Adults</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="children">Children</label>
+                    <select id="children">
+                        <option value="0" selected>No Children</option>
+                        <option value="1">1 Child</option>
+                        <option value="2">2 Children</option>
+                        <option value="3">3 Children</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="room-type">Room Type</label>
+                    <select id="room-type">
+                        <option value="standard">Standard Room</option>
+                        <option value="deluxe">Deluxe Room</option>
+                        <option value="suite">Executive Suite</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="rate-plan">Rate Plan</label>
+                    <select id="rate-plan">
+                        <option value="without">Without Breakfast</option>
+                        <option value="with">With Breakfast</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label style="opacity: 0;">Check Availability</label>
+                    <button class="btn" id="check-rates">
+                        <i class="fas fa-search"></i> Check Rates
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Room Listing -->
+    <section class="room-listing">
+        <div class="container">
+            <h2 class="section-title">Our Affordable Room Selection</h2>
+            <div class="rooms-container">
+                <!-- Room 1 -->
+                <div class="room-card animated">
+                    <div class="special-offer">Best Value</div>
+                    <div class="room-image">
+                        <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Standard Room">
+                    </div>
+                    <div class="room-details">
+                        <h3 class="room-type">Standard Room</h3>
+                        <p>Perfect for solo travelers or couples looking for comfort and value.</p>
+                        <ul class="room-features">
+                            <li><i class="fas fa-check"></i> 1 King Bed or 2 Queen Beds</li>
+                            <li><i class="fas fa-check"></i> Free Wi-Fi</li>
+                            <li><i class="fas fa-check"></i> Flat-screen TV</li>
+                            <li><i class="fas fa-check"></i> Coffee Maker</li>
+                        </ul>
+                        <div class="room-price">
+                            <div>
+                                <div class="price-amount rupee">1,799<span class="price-detail">/night</span></div>
+                            </div>
+                            <button class="btn book-btn" data-room="standard">
+                                <i class="fas fa-calendar"></i> Book Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Room 2 -->
+                <div class="room-card animated">
+                    <div class="room-image">
+                        <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Deluxe Room">
+                    </div>
+                    <div class="room-details">
+                        <h3 class="room-type">Deluxe Room</h3>
+                        <p>Spacious accommodation with additional amenities for a luxurious stay.</p>
+                        <ul class="room-features">
+                            <li><i class="fas fa-check"></i> 1 King Bed</li>
+                            <li><i class="fas fa-check"></i> Free Wi-Fi</li>
+                            <li><i class="fas fa-check"></i> Sitting Area</li>
+                            <li><i class="fas fa-check"></i> Mini Bar</li>
+                        </ul>
+                        <div class="room-price">
+                            <div>
+                                <div class="price-amount rupee">2,899<span class="price-detail">/night</span></div>
+                            </div>
+                            <button class="btn book-btn" data-room="deluxe">
+                                <i class="fas fa-calendar"></i> Book Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Room 3 -->
+                <div class="room-card animated">
+                    <div class="special-offer">Premium</div>
+                    <div class="room-image">
+                        <img src="https://images.unsplash.com/photo-1540518614846-7eded433c457?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Executive Suite">
+                    </div>
+                    <div class="room-details">
+                        <h3 class="room-type">Executive Suite</h3>
+                        <p>Our most premium offering with separate living and sleeping areas.</p>
+                        <ul class="room-features">
+                            <li><i class="fas fa-check"></i> Separate Living Room</li>
+                            <li><i class="fas fa-check"></i> Premium Amenities</li>
+                            <li><i class="fas fa-check"></i> Complimentary Breakfast</li>
+                            <li><i class="fas fa-check"></i> Access to Executive Lounge</li>
+                        </ul>
+                        <div class="room-price">
+                            <div>
+                                <div class="price-amount rupee">4,499<span class="price-detail">/night</span></div>
+                            </div>
+                            <button class="btn book-btn" data-room="suite">
+                                <i class="fas fa-calendar"></i> Book Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Modal -->
+    <div class="modal" id="booking-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 class="text-center">Complete Your Booking</h2>
+            <div class="booking-summary">
+                <h3>Booking Summary</h3>
+                <div class="summary-item">
+                    <span>Room Type:</span>
+                    <span id="summary-room-type">Standard Room</span>
+                </div>
+                <div class="summary-item">
+                    <span>Check-In:</span>
+                    <span id="summary-check-in">-</span>
+                </div>
+                <div class="summary-item">
+                    <span>Check-Out:</span>
+                    <span id="summary-check-out">-</span>
+                </div>
+                <div class="summary-item">
+                    <span>Nights:</span>
+                    <span id="summary-nights">0</span>
+                </div>
+                <div class="summary-item">
+                    <span>Guests:</span>
+                    <span id="summary-guests">2 Adults, 0 Children</span>
+                </div>
+                <div class="summary-item">
+                    <span>Rate Plan:</span>
+                    <span id="summary-rate">Without Breakfast</span>
+                </div>
+                <div class="summary-item summary-total">
+                    <span>Total Price:</span>
+                    <span id="summary-total" class="rupee">0.00</span>
+                </div>
+            </div>
+            
+            <form id="booking-form">
+                <h3 class="mt-20">Guest Information</h3>
+                <div class="form-group">
+                    <label for="guest-name">Full Name</label>
+                    <input type="text" id="guest-name" required placeholder="Enter your full name">
+                </div>
+                <div class="form-group">
+                    <label for="guest-email">Email Address</label>
+                    <input type="email" id="guest-email" required placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="guest-phone">Phone Number</label>
+                    <input type="tel" id="guest-phone" required placeholder="Enter your phone number">
+                </div>
+                
+                <h3 class="mt-20">Payment Details</h3>
+                <div class="form-group">
+                    <label for="card-number">Credit Card Number</label>
+                    <input type="text" id="card-number" required placeholder="1234 5678 9012 3456">
+                </div>
+                <div class="form-group">
+                    <label for="card-expiry">Expiry Date</label>
+                    <input type="text" id="card-expiry" required placeholder="MM/YY">
+                </div>
+                <div class="form-group">
+                    <label for="card-cvv">CVV</label>
+                    <input type="text" id="card-cvv" required placeholder="123">
+                </div>
+                
+                <button type="submit" class="btn" style="width: 100%; margin-top: 20px;">
+                    <i class="fas fa-lock"></i> Confirm Booking
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About Us</h3>
+                    <p>Royal Stay Hotel offers premium accommodations with world-class amenities at affordable prices, ensuring a memorable stay for business and leisure travelers alike.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Information</h3>
+                    <div class="footer-contact">
+                        <p><i class="fas fa-map-marker-alt"></i> 123 Luxury Avenue, Mumbai, India</p>
+                        <p><i class="fas fa-phone"></i> +91 1234567890</p>
+                        <p><i class="fas fa-envelope"></i> info@royalstay.com</p>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Connect With Us</h3>
+                    <div style="font-size: 1.5rem;">
+                        <i class="fab fa-facebook" style="margin-right: 15px; cursor: pointer;"></i>
+                        <i class="fab fa-twitter" style="margin-right: 15px; cursor: pointer;"></i>
+                        <i class="fab fa-instagram" style="cursor: pointer;"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Royal Stay Hotel. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set minimum date for check-in to today
+            const today = new Date();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            
+            const checkInInput = document.getElementById('check-in');
+            const checkOutInput = document.getElementById('check-out');
+            
+            const formatDate = (date) => {
+                return date.toISOString().split('T')[0];
+            };
+            
+            checkInInput.min = formatDate(today);
+            checkOutInput.min = formatDate(tomorrow);
+            
+            // Set default check-in to today and check-out to tomorrow
+            checkInInput.value = formatDate(today);
+            checkOutInput.value = formatDate(tomorrow);
+            
+            // Room data with reduced base prices in Indian Rupees
+            const roomData = {
+                standard: {
+                    name: 'Standard Room',
+                    basePrice: 1799,
+                    single: 1799,
+                    double: 1899,
+                    extraPerson: 400,
+                    extraChild: 200,
+                    withBreakfast: 200,
+                    withoutBreakfast: 0
+                },
+                deluxe: {
+                    name: 'Deluxe Room',
+                    basePrice: 2899,
+                    single: 2899,
+                    double: 2999,
+                    extraPerson: 500,
+                    extraChild: 250,
+                    withBreakfast: 300,
+                    withoutBreakfast: 0
+                },
+                suite: {
+                    name: 'Executive Suite',
+                    basePrice: 4499,
+                    single: 4499,
+                    double: 4599,
+                    extraPerson: 600,
+                    extraChild: 300,
+                    withBreakfast: 400,
+                    withoutBreakfast: 0
+                }
+            };
+            
+            // Format number as Indian currency
+            function formatIndianCurrency(num) {
+                return num.toLocaleString('en-IN');
+            }
+            
+            // DOM Elements
+            const checkRatesBtn = document.getElementById('check-rates');
+            const bookButtons = document.querySelectorAll('.book-btn');
+            const modal = document.getElementById('booking-modal');
+            const closeModal = document.querySelector('.close-modal');
+            const bookingForm = document.getElementById('booking-form');
+            const ratePlanSelect = document.getElementById('rate-plan');
+            
+            // Calculate and display rates
+            checkRatesBtn.addEventListener('click', function() {
+                const checkIn = new Date(checkInInput.value);
+                const checkOut = new Date(checkOutInput.value);
+                
+                // Validate dates
+                if (checkOut <= checkIn) {
+                    alert('Check-out date must be after check-in date.');
+                    return;
+                }
+                
+                // Calculate number of nights
+                const nights = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24));
+                
+                // Get guest information
+                const adults = parseInt(document.getElementById('adults').value);
+                const children = parseInt(document.getElementById('children').value);
+                const roomType = document.getElementById('room-type').value;
+                const ratePlan = document.getElementById('rate-plan').value;
+                
+                // Calculate price based on room type and occupancy
+                const room = roomData[roomType];
+                let price = room.double; // Default to double occupancy
+                
+                if (adults === 1) {
+                    price = room.single;
+                }
+                
+                // Add extra person charges if more than 2 adults
+                if (adults > 2) {
+                    price += (adults - 2) * room.extraPerson;
+                }
+                
+                // Add children charges
+                if (children > 0) {
+                    price += children * room.extraChild;
+                }
+                
+                // Add breakfast cost if selected
+                if (ratePlan === 'with') {
+                    price += room.withBreakfast;
+                }
+                
+                // Apply seasonal pricing (simple example: higher price on weekends)
+                const dayOfWeek = checkIn.getDay(); // 0 = Sunday, 6 = Saturday
+                if (dayOfWeek === 5 || dayOfWeek === 6) { // Friday or Saturday
+                    price *= 1.15; // 15% weekend surcharge
+                }
+                
+                // Calculate total
+                const total = price * nights;
+                
+                // Update room cards with calculated prices
+                document.querySelectorAll('.room-card').forEach(card => {
+                    const roomTypeElement = card.querySelector('.room-type');
+                    if (roomTypeElement.textContent === room.name) {
+                        const priceElement = card.querySelector('.price-amount');
+                        priceElement.innerHTML = `<span class="rupee"></span>${formatIndianCurrency(price)}<span class="price-detail">/night</span>`;
+                    }
+                });
+                
+                alert(`Your estimated total for ${nights} nights is ₹${formatIndianCurrency(total)}`);
+            });
+            
+            // Book Now button functionality
+            bookButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const roomType = this.getAttribute('data-room');
+                    const room = roomData[roomType];
+                    
+                    // Get dates and calculate nights
+                    const checkIn = new Date(checkInInput.value);
+                    const checkOut = new Date(checkOutInput.value);
+                    const nights = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24));
+                    
+                    // Get guest information
+                    const adults = parseInt(document.getElementById('adults').value);
+                    const children = parseInt(document.getElementById('children').value);
+                    const ratePlan = document.getElementById('rate-plan').value;
+                    const ratePlanText = ratePlan === 'with' ? 'With Breakfast' : 'Without Breakfast';
+                    
+                    // Calculate price
+                    let price = room.double;
+                    if (adults === 1) {
+                        price = room.single;
+                    }
+                    if (adults > 2) {
+                        price += (adults - 2) * room.extraPerson;
+                    }
+                    if (children > 0) {
+                        price += children * room.extraChild;
+                    }
+                    if (ratePlan === 'with') {
+                        price += room.withBreakfast;
+                    }
+                    
+                    // Apply weekend pricing
+                    const dayOfWeek = checkIn.getDay();
+                    if (dayOfWeek === 5 || dayOfWeek === 6) {
+                        price *= 1.15;
+                    }
+                    
+                    const total = price * nights;
+                    
+                    // Update modal with booking details
+                    document.getElementById('summary-room-type').textContent = room.name;
+                    document.getElementById('summary-check-in').textContent = checkInInput.value;
+                    document.getElementById('summary-check-out').textContent = checkOutInput.value;
+                    document.getElementById('summary-nights').textContent = nights;
+                    document.getElementById('summary-guests').textContent = `${adults} Adults, ${children} Children`;
+                    document.getElementById('summary-rate').textContent = ratePlanText;
+                    document.getElementById('summary-total').textContent = formatIndianCurrency(total);
+                    
+                    // Show modal
+                    modal.style.display = 'block';
+                });
+            });
+            
+            // Close modal
+            closeModal.addEventListener('click', function() {
+                modal.style.display = 'none';
+            });
+            
+            // Close modal if clicked outside
+            window.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+            
+            // Booking form submission
+            bookingForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Booking confirmed! Thank you for your reservation.');
+                modal.style.display = 'none';
+                
+                // Reset form
+                this.reset();
+            });
+            
+            // Initialize with today's rates
+            checkRatesBtn.click();
+        });
+    </script>
+</body>
+</html>
